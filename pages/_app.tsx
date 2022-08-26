@@ -1,8 +1,16 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import Head from "components/head";
+import Banner from "components/banner";
+import { useRouter } from "next/router";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+export default function RSSAlert({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  return (
+    <>
+      <Head />
+      <Banner hideManageButton={router.pathname === "/login"} />
+      <Component {...pageProps} />
+    </>
+  );
 }
-
-export default MyApp
