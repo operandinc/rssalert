@@ -56,6 +56,22 @@ export async function createObject(obj: {
   }
 }
 
+export async function getObject(id: string): Promise<Object> {
+  const response = await fetch(
+    `${process.env["OPERAND_ENDPOINT"] as string}/v3/objects/${id}`,
+    {
+      headers: {
+        Authorization: `${process.env["OPERAND_API_KEY"] as string}`,
+      },
+    }
+  );
+  if (response.ok) {
+    return (await response.json()) as Object;
+  } else {
+    throw new Error(await response.text());
+  }
+}
+
 export async function createTrigger(trigger: {
   query: string;
   filter: any;

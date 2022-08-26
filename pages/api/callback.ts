@@ -1,5 +1,4 @@
-import { HtmlObjectMetadata, Object } from "@operandinc/sdk";
-import { db, operand, sendEmail } from "lib/shared";
+import { db, getObject, sendEmail, Object } from "lib/shared";
 
 export const config = {
   runtime: "experimental-edge",
@@ -39,9 +38,7 @@ export default async function handler(req: Request) {
       existing.matches.push(match.content);
       objects.set(match.objectId, existing);
     } else {
-      const object = await operand.getObject({
-        id: match.objectId,
-      });
+      const object = await getObject(match.objectId);
       objects.set(match.objectId, {
         matches: [match.content],
         object,
@@ -51,7 +48,11 @@ export default async function handler(req: Request) {
 
   let html = `<p>New content matches for <pre>${trigger.rows[0].feedUrl}</pre>:</p><br><br>`;
   objects.forEach((value) => {
-    let meta = value.object.metadata as HtmlObjectMetadata;
+    let meta = value.object.metadata as {
+      html: string;
+      title?: string;
+      url?: string;
+    };
     html += `<p><a href="${meta.url}">${meta.title}</a>:</p><br><ul>`;
     for (const match of value.matches) {
       html += `<li>${match}</li>`;
