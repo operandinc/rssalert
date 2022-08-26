@@ -1,7 +1,14 @@
 import { ExecutedQuery } from "@planetscale/database";
 import { v4 as uuidv4 } from "uuid";
-import { db, getBaseUrl, normalizeEmail, operand } from "lib/shared";
-import { Object } from "@operandinc/sdk";
+import {
+  db,
+  getBaseUrl,
+  normalizeEmail,
+  createObject,
+  createTrigger,
+  Object,
+  deleteTrigger,
+} from "lib/shared";
 
 export const config = {
   runtime: "experimental-edge",
@@ -82,7 +89,7 @@ async function createAlertHandler(req: Request) {
 
     var object: Object;
     try {
-      object = await operand.createObject({
+      object = await createObject({
         type: "rss",
         metadata: {
           rssUrl: feedUrl,
@@ -105,7 +112,7 @@ async function createAlertHandler(req: Request) {
     objectId = existing.rows[0].objectId;
   }
 
-  const trigger = await operand.createTrigger({
+  const trigger = await createTrigger({
     query: triggerQuery,
     filter: {
       _object: objectId,
@@ -153,9 +160,7 @@ async function deleteAlertHandler(req: Request) {
   }
 
   await Promise.all([
-    operand.deleteTrigger({
-      id: triggerId as string,
-    }),
+    deleteTrigger(triggerId),
     conn.execute("DELETE FROM alerts WHERE triggerId = ?", [triggerId]),
   ]);
 
