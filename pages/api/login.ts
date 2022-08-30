@@ -18,6 +18,8 @@ export default async function handler(req: Request) {
     [normalized]
   );
 
+  console.log(existing);
+
   if (existing.rows.length > 0) {
     const managementUrl = `${getBaseUrl()}/manage?email=${normalized}&secret=${
       existing.rows[0].secret
