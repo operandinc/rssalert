@@ -96,6 +96,7 @@ async function createAlertHandler(req: Request) {
         },
         label: feedUrl,
         parentId: process.env["OPERAND_PARENT_ID"] || undefined,
+        lifespan: 600, // Children will be automatically deleted after 10 minutes.
       });
     } catch (e) {
       console.warn(e);

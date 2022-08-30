@@ -37,6 +37,7 @@ export async function createObject(obj: {
   metadata: any;
   label?: string;
   parentId?: string;
+  lifespan?: number;
 }): Promise<Object> {
   const response = await fetch(
     `${process.env["OPERAND_ENDPOINT"] as string}/v3/objects`,
