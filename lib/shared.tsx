@@ -128,7 +128,7 @@ export async function sendEmail(email: {
   subject: string;
   htmlBody: string;
 }): Promise<void> {
-  await fetch("https://api.postmarkapp.com/email", {
+  const r = await fetch("https://api.postmarkapp.com/email", {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -143,6 +143,9 @@ export async function sendEmail(email: {
       MessageStream: "outbound",
     }),
   });
+  if (!r.ok) {
+    throw new Error(await r.text());
+  }
 }
 
 export function getBaseUrl(): string {
