@@ -15,7 +15,7 @@ export default function Index() {
   const [form, setForm] = React.useState<RSSAlertForm>({
     feedUrl: "",
     triggerQuery: "",
-    triggerThreshold: 0.6,
+    triggerThreshold: 0.45,
     destinationEmail: "",
   });
   const [triggerId, setTriggerId] = React.useState("");
@@ -59,7 +59,7 @@ export default function Index() {
     setForm((existing) => ({
       ...existing,
       triggerQuery: "",
-      triggerThreshold: 0.6,
+      triggerThreshold: 0.45,
     }));
 
     setLoading(false);

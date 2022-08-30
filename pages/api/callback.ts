@@ -46,18 +46,18 @@ export default async function handler(req: Request) {
     }
   }
 
-  let html = `<p>New content matches for <pre>${trigger.rows[0].feedUrl}</pre>:</p><br><br>`;
+  let html = `<p>New content matches for <pre>${trigger.rows[0].feedUrl}</pre></p>`;
   objects.forEach((value) => {
     let meta = value.object.metadata as {
       html: string;
       title?: string;
       url?: string;
     };
-    html += `<p><a href="${meta.url}">${meta.title}</a>:</p><br><ul>`;
+    html += `<p>Title: <a href="${meta.url}">${meta.title}</a></p><ul>`;
     for (const match of value.matches) {
       html += `<li>${match}</li>`;
     }
-    html += "</ul><br><br>";
+    html += "</ul>";
   });
 
   await sendEmail({
